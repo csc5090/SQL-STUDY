@@ -70,22 +70,52 @@
 사용예) CART테이블에 오늘 날짜의 장바구니 번호를 생성하여 출력하시오.
        단, 내가 오늘 맨 처음 로그인한 회원임.
        
-        SELECT TO_CHAR(SYSDATE, 'YYYYMMDD')||TO_CHAR(1,'00000')
+        SELECT TO_CHAR(SYSDATE, 'YYYYMMDD')||TRIM(TO_CHAR(1,'00000'))
         FROM   DUAL;
         
-        
-    
-    
 7. SUBSTR(c1, n [,count])
    - 주어진 문자열 c1에서 n위치부터 count 갯수 만큼의 부분 문자열을 추출하여 반환.
    - count가 생략되면 n부터 나머지 모든 문자열을 반환
    - n이 음수이면 오른쪽 부터 시작하여 count갯수 만큼의 부분 문자열을 추출하여 반환.
    
+사용예)
+    SELECT MEM_ADD1,
+           SUBSTR(MEM_ADD1,1,2) AS "COL2",
+           SUBSTR(MEM_ADD1,3),
+           SUBSTR(MEM_ADD1,-10,5)
+    FROM   MEMBER;
+    
+사용예) 매출 자료 중 년도에 상관없이 5월에 판매된 상품별 판매수량 합계를 조회하시오.
+    
+    SELECT PROD_ID AS 상품번호,
+        SUM (CART_QTY) AS "판매수량 합계"
+    FROM   CART
+    WHERE SUBSTR(CART_NO,5,2)='05'
+    GROUP BY PROD_ID
+    ORDER BY 2 DESC;
+    
+    
 8. INSTR(c, c1 [,loc1 [,rept])
     - 주어진 문자열 c에서 처음 만난 c1의 위치를 반환
     - loc는 시작 위치 값
     - rept는 반복횟수 정의
     
+사용예)
+    SELECT INSTR('PERSIMONPEARAPPLE', 'P') AS "COL1",
+           INSTR('PERSIMONPEARAPPLE', 'P',3) AS "COL2",
+           INSTR('PERSIMONPEARAPPLE', 'P',3,2) AS "COL3"
+        FROM DUAL;
+    
 9. REPLACE(c, c1[ ,c2])
     - 주어진 문자열 c1을 찾아 c2로 대치 시킴
     - c2가 생략되면 c1을 찾아 삭제
+    
+ 사용예) 상품테이블에서 상품명 중 '삼성'을 찾아 'SAMSUNG'으로 치환하고,
+        문자열 내부의 공백을 제거하시오.
+ 
+    SELECT PROD_NAME,
+            REPLACE (PROD_NAME, '삼성','SAMSUNG') AS "COL2",
+            REPLACE (PROD_NAME, ' ') AS "COL3"
+      FROM PROD; 
+    
+    
