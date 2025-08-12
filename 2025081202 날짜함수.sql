@@ -23,5 +23,15 @@ SELECT MEM_ID AS 회원번호,
        ADD_MONTHS(MEM_BIR,2)-7 AS 알람일자
 FROM MEMBER;
         
+3. NEXT_DAY(date, c)  ex) SELECT NEXT_DAY(DATE '2025-08-12', '화요일')
+  - 주어진 날짜 'date'에서 다가올 'c'요일의 날짜를 반환.
+  - 'c'는 '월요일', '월' ~ '일요일', '일'을 써야함.
+
+사용예)
+SELECT NEXT_DAY(SYSDATE,'화요일'),
+       NEXT_DAY(SYSDATE,'목요일')
+    FROM DUAL;
+    
+
 사원테이블에서 80번 부서의 사원들 근속기간을 XX년 XX개월 형식으로 출력하여 조회하시오.
        ALIAS는 사원번호, 사원명, 입사일, 근속기간.
