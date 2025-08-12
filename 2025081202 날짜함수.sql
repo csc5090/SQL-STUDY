@@ -23,6 +23,5 @@ SELECT MEM_ID AS 회원번호,
        ADD_MONTHS(MEM_BIR,2)-7 AS 알람일자
 FROM MEMBER;
         
-
 사원테이블에서 80번 부서의 사원들 근속기간을 XX년 XX개월 형식으로 출력하여 조회하시오.
        ALIAS는 사원번호, 사원명, 입사일, 근속기간.
