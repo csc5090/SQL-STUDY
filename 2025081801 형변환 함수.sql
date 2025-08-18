@@ -14,14 +14,14 @@
     AD,BC,CC        | 서기(AD),       |
                     | 기원전(BC),     |
                     | 세기(CC)        | SELECT TO_CHAR(SYSDATE, 'AD   BC   CC   Q') FROM DUAL;
-                    | 분기            | SELECT TO_CHAR(SYSDATE, 'Q') || '분기' FROM DUAL;
+    Q               | 분기            | SELECT TO_CHAR(SYSDATE, 'Q') || '분기' FROM DUAL;
     YYYY,YYY,YY,Y   | 년도            | SELECT TO_CHAR(SYSDATE, 'YYYY   YYY    YY   Y') FROM DUAL;       
     YEAR            | 년도            | SELECT TO_CHAR(SYSDATE, 'YEAR') FROM DUAL;
     MONTH, MON      | 월              | SELECT TO_CHAR(SYSDATE, 'MONTH     MON') FROM DUAL;
     MM, RM          | 월              | SELECT TO_CHAR(SYSDATE, 'MM      RM') FROM DUAL; 
     DDD, DD, J      | 일              | SELECT TO_CHAR(SYSDATE, 'DDD  DD  J') FROM DUAL;
     DAY, DY, D      | 요일            | SELECT TO_CHAR(SYSDATE, 'DAY   DY  D') FROM DUAL;
-
+    
 
 2. TO_DATE
 
