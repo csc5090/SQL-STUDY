@@ -21,10 +21,37 @@
     MM, RM          | 월              | SELECT TO_CHAR(SYSDATE, 'MM      RM') FROM DUAL; 
     DDD, DD, J      | 일              | SELECT TO_CHAR(SYSDATE, 'DDD  DD  J') FROM DUAL;
     DAY, DY, D      | 요일            | SELECT TO_CHAR(SYSDATE, 'DAY   DY  D') FROM DUAL;
-    
+    AM, A.M,        | 오전            | SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD AM') FROM DUAL; 
+    PM, P.M,        | 오후            | SELECT TO_CHAR(SYSDATE, 'PM   P.M') FROM DUAL;
+    HH, HH12, HH24  | 시간            | 
+    MI              | 분              | SELECT TO_CHAR(SYSDATE, 'YYYY MM DD HH MI SS') FROM DUAL;
+    SS, SSSSS       | 초              | SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SSSSS') FROM DUAL;
+                                        SELECT 15*60*60+57*60+04 FROM DUAL;
+    "   "           | 사용자 정의 문자열 |  SELECT TO_CHAR(SYSDATE, 'YYYY"년" MM"월" DD"일" HH24:MI:SS  SSSSS') FROM DUAL;
 
-2. TO_DATE
+2) 숫자 형식 지정 문자열
+--------------------------------------------------------------------------------
+    형식 문자열       |     의미                             |  예
+--------------------------------------------------------------------------------
+         9         |출력형식의 자리, 유효한 숫자인 경우 출력     | SELECT TO_CHAR(2345, '99999999') AS "COL1" FROM DUAL;
+                   |유효숫자가 아닌 경우 공백 출력              |
+                   |(소수점은 대응 안되는 자리에서 반올림)       | SELECT TO_CHAR(2345, '00000000') AS "COL1" FROM DUAL;
+         0         |출력형식의 자리, 유효한 숫자인 경우 출력     |            
+                   |유효숫자가 아닌경우 '0'출력(소수점 마찬가지)  |            
+      $,  L        |달러 및 지역화폐 기호를 유효숫자 왼쪽에 출력  |SELECT TO_CHAR(PROD_COST, '$999,999') AS 매입가 FROM PROD WHERE LPROD_GU='P201';
+       MI          |음수인 경우 우측에 마이너스 표시.           |SELECT TO_CHAR(-23456, '99,999MI') FROM DUAL;
+                   |형식 문자열 우측에 기술                   |
+       PR          |음수인 경우 자료를 "< >"안에 표시.         |SELECT TO_CHAR(-23456, '99,999PR') FROM DUAL;
+                   |형식 문자열 우측에 기술                   |
+  ,(COMMA),        |3자리마다의 자리점                       |
+  .(DOT)           |소숫점                                 |
 
+
+2. TO_NUMBER(c [,fmt])
+    - 주어진 문자열 자료 'c'의 값을 숫자로 변환함.
+    - 'c'는 반드시 숫자로 변환 가능한 값이어야 함.
+    - 'fmt'는 'c'에 포함된 편집문자열 때문에 자동으로 숫자로 변환할 수 없을 때
+      기본형 숫자를 'c'로 편집하기 위해 사용된 형식문자열이며 출력은 기본 숫자형임 
 
 3. TO_NUMBER
 
