@@ -52,7 +52,49 @@
     - 'c'는 반드시 숫자로 변환 가능한 값이어야 함.
     - 'fmt'는 'c'에 포함된 편집문자열 때문에 자동으로 숫자로 변환할 수 없을 때
       기본형 숫자를 'c'로 편집하기 위해 사용된 형식문자열이며 출력은 기본 숫자형임 
+      SELECT TO_NUMBER('1234'),
+             TO_NUMBER('-3456'),
+             TO_NUMBER('23.56')
+      FROM DUAL;
+      
+      SELECT TO_NUMBER('1234'),
+             TO_NUMBER('\3456'),
+             TO_NUMBER('23.56')
+      FROM DUAL;
+      
+      SELECT TO_NUMBER('1,234', '9,999'),
+             TO_NUMBER('1,234', '0,000'),
+             TO_NUMBER('￦3456', 'L9999'),
+             TO_NUMBER('<23.56>', '99.99PR')
+      FROM DUAL;
 
-3. TO_NUMBER
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY/MM/DD HH24:MI:SS';
 
-4. CAST
+
+
+3. TO_DATE(c|n [,fmt])
+    - 주어진 문자열 자료 'c' 또는 숫자자료 n을 날짜타입으로 변환함.
+    - 'c'와 n은 반드시 날짜로 변환 가능한 타입이어야 함.
+    - 'fmt'는 'c'에 포함된 편집문자열 때문에 자동으로 날짜로 변환할 수 없을 때 또는 시분초 값이 정의 되었을 때 
+      'c'로 편집하기 위해 사용된 형식문자열이며 출력은 기본 날짜형임.
+      
+      SELECT TO_DATE('20250818'),
+             TO_DATE(20250818)
+      FROM DUAL;
+    
+      SELECT TO_DATE('오후 5:18 2025-08-18','AM HH:MI YYYY-MM-DD')
+      FROM DUAL;
+
+      SELECT EXTRACT(MONTH FROM TO_DATE('오후 5:18 2025-08-18','AM HH:MI YYYY-MM-DD'))
+        FROM DUAL;
+
+
+4. CAST(컬럼 AS 타입)
+    - 컬럼의 자료형을 AS 다음에 기술한 타입으로 변환해 줌.
+    - 모든 자료형을 변환할 수 있으나 형식을 지정하여 변환은 불가능.
+    
+
+    SELECT CAST(12345 AS CHAR(5)) AS "COL1",
+           CAST(SYSDATE AS VARCHAR2(100)) AS "COL2",
+           CAST('<23,456>' AS NUMBER(6)) AS "COL3"--형식지정을 해야함.
+      FROM DUAL;
