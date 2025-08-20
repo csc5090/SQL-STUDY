@@ -136,8 +136,31 @@
 -------------------------------------------------------------------------숙제
 
 12)회원테이블에서 성별 평균마일리지를 조회하시오.
+    SELECT CASE WHEN SUBSTR(MEM_REGNO2,1,1) IN ('1','3') THEN '남성회원'
+                ELSE '여성회원' END AS 구분,
+           ROUND(AVG(MEM_MILEAGE)) AS 평균마일리지
+    FROM   MEMBER
+    GROUP BY CASE WHEN SUBSTR(MEM_REGNO2,1,1) IN ('1','3') THEN '남성회원'
+                ELSE '여성회원' END;
     
 13)회원테이블에서 연령대별 회원수와 평균마일리지를 조회하시오.
 
+SELECT TRUNC((EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM MEM_BIR))/10)*10||'대 ' AS 연령대,
+        COUNT(*) AS 회원수,
+        ROUND(AVG(MEM_MILEAGE)) AS 평균마일리지
+        FROM MEMBER
+        GROUP BY TRUNC((EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM MEM_BIR))/10)*10||'대'
+        ORDER BY 1;
+
+
 14)상품테이블에서 매입거래처별 상품의 수와 최고매입가, 최저매입가를 조회하시오.
 
+    SELECT BUYER_ID AS 매입거래처코드, 
+           COUNT(*) AS "상품의 수",
+           MAX(PROD_COST) AS 최고매입가,
+           MIN(PROD_COST) AS 최저매입가
+    FROM PROD
+    GROUP BY BUYER_ID
+    ORDER BY 1;
+    
+    
