@@ -36,7 +36,7 @@ FROM PROD;
         
 SELECT B.PROD_ID AS 상품코드,
        B.PROD_NAME AS 상품명,
-       NVL(SUM(A.BUY_QTY),0) AS 매입수량
+       NVL2(SUM(A.BUY_QTY),SUM(A.BUY_QTY),0) AS 매입수량
 FROM BUYPROD A
 RIGHT OUTER JOIN PROD B ON(A.PROD_ID=B.PROD_ID AND A.BUY_DATE
          BETWEEN TO_DATE('20200201') AND LAST_DAY(TO_DATE('20200201')))
@@ -69,3 +69,16 @@ SELECT EMPLOYEE_ID AS 사원번호,
        NVL2(COMMISSION_PCT,TO_CHAR(ROUND(SALARY*0.5),'99,999'), '영업실적 없음') AS 보너스
 FROM C##HR.EMPLOYEES;
 
+4. NULLIF(col1, col2)
+    - col1과 col2의 값이 같으면 NULL을 반환하고, 같지 않다면 col1을 반환 함.
+    
+
+사용예) 상품테이블에서 매입가와 매출가를 조회하여 같은 값이면 "비고"란에 '단종예정 상품'을,
+       같지 않은 경우엔 판매수익(매출가-매입가)을 출력하시오.
+
+SELECT PROD_ID AS 상품코드,
+       PROD_NAME AS 상품명,
+       PROD_PRICE AS 판매가,
+       PROD_COST AS 매입가,
+       NVL2(NULLIF(PROD_PRICE,PROD_COST),TO_CHAR(PROD_PRICE-PROD_COST,'9,999,999'),'단종 예정 상품') AS 비고
+FROM PROD;
