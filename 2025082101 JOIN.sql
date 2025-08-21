@@ -188,7 +188,8 @@ SELECT A.EMPLOYEE_ID AS 사원번호,
        A.EMP_NAME AS 사원명,
        A.DEPARTMENT_ID AS 부서번호,
        B.DEPARTMENT_NAME AS 부서명,
-       C.JOB_TITLE AS 직책
+       C.JOB_TITLE AS 직책,
+       D.COUNTRY_ID AS 국가코드
 FROM   C##HR.EMPLOYEES A, C##HR.DEPARTMENTS B, C##HR.JOBS C, C##HR.LOCATIONS D
 WHERE  A.DEPARTMENT_ID=B.DEPARTMENT_ID  -- 조인조건(부서명 추출)
 AND    A.JOB_ID=C.JOB_ID  -- 조인조건(직무명 추출)
@@ -197,3 +198,21 @@ AND    D.COUNTRY_ID != 'US'
 ORDER BY 3;
 
 
+ANSI 조인으로 하기.
+
+
+ hr계정의 테이블들을 활용하여 주소가 미국에 있지 않은 부서에 속한 사원정보를 조회하시오.
+    AS는 회원번호, 회원명, 부서번호, 부서명, 직책
+    
+SELECT E.EMPLOYEE_ID AS 사원번호,
+       E.EMP_NAME AS 사원명,
+       E.DEPARTMENT_ID AS 부서번호,
+       D.DEPARTMENT_NAME AS 부서명,
+       J.JOB_TITLE AS 직책,
+       L.COUNTRY_ID AS 국가코드
+FROM C##HR.EMPLOYEES E
+INNER JOIN C##HR.DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID
+INNER JOIN C##HR.LOCATIONS L ON L.LOCATION_ID=D.LOCATION_ID
+INNER JOIN C##HR.JOBS J ON J.JOB_ID=E.JOB_ID
+WHERE NOT(L.COUNTRY_ID IN ('US'))
+ORDER BY 1;
