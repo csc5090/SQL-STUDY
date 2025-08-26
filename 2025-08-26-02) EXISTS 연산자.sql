@@ -1,3 +1,30 @@
 2025-08-26-02) EXISTS 연산자
+  - EXISTS 연산자는 WHERE 절에 사용되며 반드시 서브쿼리가 기술되어야 한다.
+  - EXISTS 연산자 좌측에는 컬럼명을 기술하지 않음
+  - 실행은 서브쿼리의 결과가 한 행이라도 있으면 참(TRUE)을 반환
 
+사용예) 장바구니 테이블에서 2020년 4월에 판매된 상품이 6월에도 판매된 상품을 찾아 
+       상품번호, 상품명을 출력하시오.
+2020년 4월에 판매된 상품의 상품번호, 상품명 
+
+SELECT DISTINCT A.PROD_ID, B.PROD_NAME 
+FROM CART A 
+INNER JOIN PROD B ON(A.PROD_ID=B.PROD_ID)
+WHERE A.CART_NO LIKE '202004%'
+INTERSECT
+SELECT DISTINCT A.PROD_ID, B.PROD_NAME 
+FROM CART A 
+INNER JOIN PROD B ON(A.PROD_ID=B.PROD_ID)
+WHERE A.CART_NO LIKE '202006%'
+ORDER BY 1;
+
+(EXISTS 연산자 사용)
+SELECT DISTINCT A.PROD_ID, B.PROD_NAME 
+FROM CART A 
+INNER JOIN PROD B ON(A.PROD_ID=B.PROD_ID)
+WHERE A.CART_NO LIKE '202004%'
+AND NOT EXISTS(SELECT 1
+             FROM CART C
+            WHERE C.CART_NO LIKE '202006%'
+            AND A.PROD_ID=C.PROD_ID);
 
