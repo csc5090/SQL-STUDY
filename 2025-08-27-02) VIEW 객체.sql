@@ -22,7 +22,15 @@
     .'WITH READ ONLY' : 읽기 전용 뷰를 생성
     .WITH READ ONLY 와 WITH CHECK OPTION은 동시 사용할 수 없다.
     
-    
+    -뷰 사용시 주의사항
+      .뷰를 생성할 때 제약조건(WITH)이 있는 경우, ORDER BY 절 사용이 불가능함.
+      .뷰가 집계함수, GROUP BY 절, DISTINCT를 사용하여 만들어진 경우 INSERT, UPDATE, DELETE 구문을 사용할 수 없다.
+      .어느 컬럼이 표현식, 일반함수를 통하여 만들어진 경우 해당 컬럼의 추가 및 수정불가능
+      .CURRVAL, NEXTVAL 의사컬럼(pseudo column) 사용 불가
+      .ROWID, ROWNUM, LEVEL 의사컬럼을 사용 할 경우 AS를 사용해야 함.
+      
+
+        
 사용예) 회원테이블에서 마일리지가 10000포인트 이상인 회원의 회원번호, 회원명, 마일리지를
        조회하여 뷰를 생성하시오.
       
@@ -72,3 +80,39 @@ SELECT * FROM VIEW_MILEAGE;
 UPDATE VIEW_MILEAGE
 SET 마일리지=9000
 WHERE 회원번호='f001';
+
+INSERT INTO VIEW_MILEAGE VALUES('a002','거지최원효',12000);
+
+5) MEMBER 테이블에서 'a002' 회원의 마일리지를 1200으로 변경하시오.
+
+UPDATE MEMBER 
+SET MEM_MILEAGE=1200
+WHERE MEM_ID='a002';
+
+
+**컬럼명을 생략하고 WITH READ ONLY를 사용한 뷰를 생성하기.
+
+CREATE OR REPLACE VIEW VIEW_MILEAGE
+AS
+SELECT MEM_ID AS 회원번호,MEM_NAME AS 회원명,MEM_MILEAGE AS 마일리지
+FROM MEMBER
+WHERE MEM_MILEAGE>=10000
+WITH READ ONLY;
+
+SELECT * FROM VIEW_MILEAGE;
+
+6) 뷰 VIEW_MILEAGE에서 'f001' 회원의 마일리지(16506)를 9000포인트로 변경하시오.
+
+UPDATE VIEW_MILEAGE
+SET MEM_MILEAGE=9000
+WHERE MEM_ID='f001';
+
+4-1) 뷰 마이리지에서 f001 회원의 마일리지를 19000포인트로 변경하시오.
+
+UPDATE VIEW_MILEAGE
+SET 마일리지=16506
+WHERE 회원번호='f001';
+
+UPDATE MEMBER
+SET MEM_MILEAGE=16506
+WHERE MEM_ID='f001';
