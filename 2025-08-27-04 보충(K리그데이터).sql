@@ -7,8 +7,6 @@ WHERE TEAM_ID=(SELECT TEAM_ID
                  FROM TEAM
                 WHERE TEAM_NAME='울산 HD');
 
-
-
 2. STADIUM 테이블에서 '서울월드컵경기장'의 주소를 조회하시오.
 
 SELECT STADIUM_NAME AS 경기장,
@@ -35,6 +33,3 @@ SELECT (SELECT TEAM_NAME
           FROM STADIUM
          WHERE A.STADIUM_ID=STADIUM_ID) AS "경기장 이름"
 FROM SCHEDULE A;
-
-
-
