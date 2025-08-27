@@ -7,5 +7,41 @@ WHERE TEAM_ID=(SELECT TEAM_ID
                  FROM TEAM
                 WHERE TEAM_NAME='울산 HD');
 
-서브쿼리
-(팀명이 울산HD인 팀의 팀 번호 찾기)
+
+
+2. STADIUM 테이블에서 '서울월드컵경기장'의 주소를 조회하시오.
+
+SELECT STADIUM_NAME AS 경기장,
+       ADDRESS AS 주소
+FROM STADIUM
+WHERE ADDRESS LIKE '서울%';
+
+3. 2025년 3월 15일에 열린 모든 경기의 홈 팀 ID와 원정 팀 ID를 조회하세요.
+
+SELECT HOMETEAM_ID AS 홈팀ID,
+       AWAYTEAM_ID AS 원정팀ID
+FROM SCHEDULE
+WHERE SCHE_DATE IN '20250315'
+
+3-1 2025년 3월 15일에 열린 모든 경기의 홈 팀 이름과 원정 팀 이름, 경기장 명을 조회하세요.
+
+SELECT (SELECT TEAM_NAME
+          FROM TEAM
+         WHERE A.HOMETEAM_ID=TEAM_ID) AS "홈팀 이름",
+         (SELECT TEAM_NAME
+          FROM TEAM
+         WHERE A.AWAYTEAM_ID=TEAM_ID) AS "어웨이팀 이름",
+         (SELECT STADIUM_NAME
+          FROM STADIUM
+         WHERE A.STADIUM_ID=STADIUM_ID) AS "경기장 이름"
+FROM SCHEDULE A;
+
+
+
+SELECT  AS 홈팀이름, 
+        AS 원정팀이름,
+        AS 경기장명
+FROM SCHEDULE A 
+INNER JOIN TEAM B ON(A.TEAM_ID=B.SCHEDULE)
+AND STADIUM C ON(A.TEAM_ID=C.TEAM_ID)
+WHERE SCHE_DATE=(IN '20250315'
