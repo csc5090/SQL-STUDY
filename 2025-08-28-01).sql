@@ -45,4 +45,24 @@
  
  SELECT seq_lprod_id.NEXTVAL FROM DUAL;
  
- INCREMENT BY
+
+
+
+동의어(SYNONYM) -별칭
+- 객체에 대한 다른 이름으로 대체한다.
+- SYNONYM을 사용하는 경우
+  .다른 소유자의 객체를 접근하는 경우 "스키마명.객체명"으로 접근하는데 이를 편하게 할 때 사용.
+-긴 이름의 객체명을 쉬운 이름으로 대체하고자 할 때
+
+사용형식(문법)
+  CREATE OR REPLACE SYNONYM new_객체명 FOR old_객체명;
+  
+  DROP TABLE C##HR.EMP;
+  
+사용예) HR계정의 EMP테이블의 'EMP'를 부서테이블에 'DEPT' 시노늄을 부여하시오.
+
+CREATE OR REPLACE SYNONYM EMP FOR C##HR.EMPLOYEES;
+
+SELECT E.EMPLOYEE_ID, E.EMP_NAME, D.DEPARTMENT_NAME
+FROM EMP E, DEPT D
+WHERE E.DEPARTMENT_ID=D.DEPARTMENT_ID;
