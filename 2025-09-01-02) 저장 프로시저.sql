@@ -27,5 +27,18 @@
   . OUT 매개변수가 있을 때 - 익명블록이나 다른 프로시저 또는 함수 내부에서 호출 해야 함.
     
     프로시저명[(값list...,변수list)];
-      - 변수list : 반환하는 값 보관할 변수list
+      - 변수list : 반환하는 값을 보관할 변수list
       
+      
+사용예) 매입 자료(상품코드, 수량)를 입력받아 매입테이블에 저장하는 프로시저를 작성하시오.
+        날짜는 시스템 날짜로 설정
+    CREATE OR REPLACE PROCEDURE prod_insert_buyprod(
+        P_PROD_ID  PROD.PROD_ID%TYPE, P_QTY IN NUMBER)
+     AS
+     BEGIN
+        INSERT INTO BUYPROD VALUES(SYSDATE, P_PROD_ID,P_QTY);
+        COMMIT;
+    END;
+    
+    EXECUTE PROD_INSERT_BUYPROD(
+
